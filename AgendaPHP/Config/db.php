@@ -1,12 +1,10 @@
 <?php
-/**
- * Configuração genérica de banco de dados usando PDO, compatível com MySQL (XAMPP) ou SQLite.
- */
+
 
 session_start();
 
 $db_driver = 'mysql'; 
-// $db_driver = 'sqlite';
+
 
 if ($db_driver === 'mysql') {
     $host   = 'localhost';
