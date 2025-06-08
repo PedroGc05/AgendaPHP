@@ -1,6 +1,6 @@
-<link rel="stylesheet" href="/css/footer.css"> 
+<link rel="stylesheet" href="/AgendaPHP/AgendaPHP/Public/css/footer.css"> 
 <footer>  
-    <div class="container text-center">
+    <div class="footer-container text-center">
         <p>© 2025 Agenda Pessoal. Todos os direitos reservados aos desenvolvedores.</p>
     </div>
 </footer>
