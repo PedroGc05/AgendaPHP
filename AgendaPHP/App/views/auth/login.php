@@ -38,6 +38,7 @@
         
         <div class="auth-links">
             <a href="/AgendaPHP/AgendaPHP/Public/auth/cadastro">Não tem conta? Cadastre-se</a>
+            <a href="/AgendaPHP/AgendaPHP/Public/auth/recuperar-senha">Esqueceu a senha?</a>
         </div>
     </div>
 </div>

@@ -1,14 +1,21 @@
 <link rel="stylesheet" href="/AgendaPHP/AgendaPHP/Public/css/contato.css">
 
 
-<div class="container-grupo">
+<section class="container-grupo">
     <h2>Criar novo grupo</h2>    
 
 <?php if (!empty($erro)): ?>
     <div class="erro"><?= htmlspecialchars($erro) ?></div>
 <?php endif; ?>
 
-<form action="?url=grupo/salvar" method="POST">
+<?php if (!isset($_SESSION['usuario_id'])): ?>
+    <div class="erro">Você não está logado. Faça login para cadastrar e visualizar grupos.</div>
+<?php endif; ?>
+
+<form action="/AgendaPHP/AgendaPHP/Public/grupo/salvar" method="POST">
+    <?php if (class_exists('AgendaPHP\\Core\\CSRFToken')): ?>
+        <?= \AgendaPHP\Core\CSRFToken::campoFormulario('grupo_form') ?>
+    <?php endif; ?>
     <label for="nome">Nome do Grupo:</label>
     <input type="text" name="nome" id="nome" required placeholder="Digite o nome do grupo">
     <button type="submit">Criar Grupo</button>
@@ -21,16 +28,17 @@
 <div class="lista-grupos">
     <?php if (!empty($grupos)): ?>
         <?php foreach ($grupos as $grupo): ?>
-            <div class="grupo-card">
+            <article class="grupo-card">
                 <strong>ID:</strong> <?= htmlspecialchars($grupo['id']) ?><br>
                 <strong>Nome:</strong> <?= htmlspecialchars($grupo['nome']) ?><br>
                 <strong>Contatos:</strong> <?= $grupo['total_contatos'] ?>
-            </div>
+            </article>
         <?php endforeach; ?>
     <?php else: ?>
         <p>Nenhum grupo cadastrado ainda.</p>
     <?php endif; ?>
 </div>
+</section>
 
 
 <style>
@@ -64,4 +72,4 @@
 
 </style>
 
-<link rel="stylesheet" href="/AgendaPHP/AgendaPHP/Public/css/footer.css"> 
+<link rel="stylesheet" href="/AgendaPHP/AgendaPHP/Public/css/footer.css">

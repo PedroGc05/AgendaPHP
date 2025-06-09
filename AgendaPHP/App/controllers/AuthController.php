@@ -127,5 +127,43 @@ class AuthController extends Controller {
         $this->setMensagem('success', 'Logout realizado com sucesso!');
         $this->redirect('/AgendaPHP/AgendaPHP/Public/Home');
     }
+    
+    public function recuperarSenha() {
+        $erro = $sucesso = '';
+        if ($this->isPost()) {
+            if (!$this->validarCSRF('recuperar_senha_form')) {
+                $erro = 'Erro de validação do formulário.';
+            } else {
+                $cpf = $_POST['cpf'] ?? '';
+                $data_nasc = $_POST['data_nasc'] ?? '';
+                $nova_senha = $_POST['nova_senha'] ?? '';
+                $confirmar_senha = $_POST['confirmar_senha'] ?? '';
+                if (empty($cpf) || empty($data_nasc) || empty($nova_senha) || empty($confirmar_senha)) {
+                    $erro = 'Preencha todos os campos.';
+                } elseif ($nova_senha !== $confirmar_senha) {
+                    $erro = 'As senhas não coincidem.';
+                } elseif (strlen($nova_senha) < 6) {
+                    $erro = 'A senha deve ter pelo menos 6 caracteres.';
+                } else {
+                    require_once __DIR__ . '/../models/Usuario.php';
+                    global $pdo;
+                    $usuarioModel = new \AgendaPHP\App\Models\Usuario($pdo);
+                    $stmt = $pdo->prepare("SELECT id FROM usuarios WHERE cpf = ? AND data_nasc = ?");
+                    $stmt->execute([$cpf, $data_nasc]);
+                    $usuario = $stmt->fetch(\PDO::FETCH_ASSOC);
+                    if ($usuario) {
+                        $usuarioModel->alterarSenha($usuario['id'], $nova_senha);
+                        $sucesso = 'Senha redefinida com sucesso!';
+                    } else {
+                        $erro = 'Dados não conferem. Verifique o CPF e a data de nascimento.';
+                    }
+                }
+            }
+        }
+        $this->renderView('auth/recuperar_senha', [
+            'erro' => $erro,
+            'sucesso' => $sucesso
+        ]);
+    }
 }
 ?>

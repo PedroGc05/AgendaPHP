@@ -26,5 +26,6 @@
                 <?php else: ?>
                     <a href="/AgendaPHP/AgendaPHP/Public/auth/login" class="nav-item-link">Login</a>
                 <?php endif; ?>
+                <!-- <a href="/AgendaPHP/AgendaPHP/Public/auth/recuperar-senha" class="nav-item-link">Recuperar Senha</a> -->
             </nav>
         </header>

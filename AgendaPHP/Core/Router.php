@@ -67,12 +67,17 @@ class Router {
         });
 
         $this->addRoute('/sobre', function () {
-            include APP_PATH . '/views/public/sobre.php';
+            require_once APP_PATH . '/controllers/HomeController.php';
+            $controller = new \AgendaPHP\App\Controllers\HomeController($this->pdo);
+            $controller->sobre();
         });
 
         $this->addRoute('/fale-conosco', function () {
-            include APP_PATH . '/views/public/contato.php';
+            require_once APP_PATH . '/controllers/HomeController.php';
+            $controller = new \AgendaPHP\App\Controllers\HomeController($this->pdo);
+            $controller->contato();
         });
+
 
         $this->addRoute('/auth/login', function () {
             require_once APP_PATH . '/controllers/AuthController.php';
@@ -104,6 +109,12 @@ class Router {
             $controller->logout();
         });
 
+        $this->addRoute('/auth/recuperar-senha', function () {
+            require_once APP_PATH . '/controllers/AuthController.php';
+            $controller = new \AgendaPHP\App\Controllers\AuthController($this->pdo);
+            $controller->recuperarSenha();
+        });
+
         $this->addRoute('/grupo', function () {
             require_once APP_PATH . '/controllers/GrupoController.php';
             $controller = new \AgendaPHP\App\Controllers\GrupoController($this->pdo);
@@ -120,6 +131,13 @@ class Router {
             require_once APP_PATH . '/controllers/GrupoController.php';
             $controller = new \AgendaPHP\App\Controllers\GrupoController($this->pdo);
             $controller->salvar();
+        });
+
+        $this->addRoute('/grupo/editar', function () {
+            $id = isset($_GET['id']) ? $_GET['id'] : null;
+            require_once APP_PATH . '/controllers/GrupoController.php';
+            $controller = new \AgendaPHP\App\Controllers\GrupoController($this->pdo);
+            $controller->editar($id);
         });
 
         $this->addRoute('/grupo/excluir', function () {
