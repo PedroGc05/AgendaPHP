@@ -2,7 +2,7 @@
 
 class Router {
     private $routes = [];
-    private $pdo; // Add this property declaration
+    private $pdo; 
 
     public function __construct($pdo) {
         $this->pdo = $pdo;

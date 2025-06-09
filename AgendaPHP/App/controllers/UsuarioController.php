@@ -71,7 +71,6 @@ class UsuarioController extends Controller {
         ]);
         
         if ($resultado) {
-            // Atualizar a sessão
             $_SESSION['usuario_nome'] = $nome;
             $_SESSION['usuario_email'] = $email;
             
@@ -161,10 +160,9 @@ class UsuarioController extends Controller {
             return;
         }
 
-        // Verificar se a senha está correta
         if (!$this->usuarioModel->verificarSenha($usuario_id, $senha)) {
             $this->setMensagem('error', 'Senha incorreta. A exclusão da conta não foi realizada.');
-            $this->redirect('/AgendaPHP/AgendaPHP/Public/usuario/perfil'); // Corrigido: redireciona de volta ao perfil
+            $this->redirect('/AgendaPHP/AgendaPHP/Public/usuario/perfil');
             return;
         }
 
