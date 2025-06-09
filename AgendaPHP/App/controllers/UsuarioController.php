@@ -5,6 +5,7 @@ use AgendaPHP\Core\Controller;
 
 class UsuarioController extends Controller {
     private $usuarioModel;
+    private $pdo;
     
     public function __construct($pdo) {
         require_once __DIR__ . '/../models/Usuario.php';

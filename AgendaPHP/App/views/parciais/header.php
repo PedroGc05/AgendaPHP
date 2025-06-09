@@ -15,6 +15,7 @@
         <?php if (isset($_SESSION['usuario_id'])): ?>
                     <a href="/AgendaPHP/AgendaPHP/Public/contato" class="nav-item-link">Meus Contatos</a>
                     <a href="/AgendaPHP/AgendaPHP/Public/grupo" class="nav-item-link">Meus Grupos</a>
+                    <a href="/AgendaPHP/AgendaPHP/Public/usuario/perfil" class="nav-item-link">Meu Perfil</a>
                 <?php endif; ?>
     
                 <a href="/AgendaPHP/AgendaPHP/Public/sobre" class="nav-item-link">Sobre</a>
