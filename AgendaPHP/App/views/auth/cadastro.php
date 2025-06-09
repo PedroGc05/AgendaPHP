@@ -44,13 +44,14 @@
             </div>
             
             <div class="form-group">
-                <label for="cpf">CPF (opcional)</label>
-                <input type="text" id="cpf" name="cpf">
+                <label for="cpf">CPF*</label>
+                <input type="text" id="cpf" name="cpf" required>
+                <small class="form-hint">Digite apenas números</small>
             </div>
             
             <div class="form-group">
-                <label for="data_nasc">Data de Nascimento (opcional)</label>
-                <input type="date" id="data_nasc" name="data_nasc">
+                <label for="data_nasc">Data de Nascimento*</label>
+                <input type="date" id="data_nasc" name="data_nasc" required>
             </div>
             
             <div class="form-actions">

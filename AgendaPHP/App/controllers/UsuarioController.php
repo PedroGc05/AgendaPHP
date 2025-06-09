@@ -57,7 +57,6 @@ class UsuarioController extends Controller {
             return;
         }
         
-        // Verificar se o email já existe para outro usuário
         if ($this->usuarioModel->emailExisteOutroUsuario($email, $usuario_id)) {
             $this->setMensagem('error', 'Este email já está em uso por outro usuário.');
             $this->redirect('/AgendaPHP/AgendaPHP/Public/usuario/perfil');
@@ -121,7 +120,6 @@ class UsuarioController extends Controller {
             return;
         }
         
-        // Verificar se a senha atual está correta
         if (!$this->usuarioModel->verificarSenha($usuario_id, $senha_atual)) {
             $this->setMensagem('error', 'A senha atual está incorreta.');
             $this->redirect('/AgendaPHP/AgendaPHP/Public/usuario/perfil');
@@ -129,14 +127,60 @@ class UsuarioController extends Controller {
         }
         
         $resultado = $this->usuarioModel->alterarSenha($usuario_id, $nova_senha);
-        
+
         if ($resultado) {
             $this->setMensagem('success', 'Senha alterada com sucesso!');
         } else {
             $this->setMensagem('error', 'Erro ao alterar a senha.');
         }
-        
+
         $this->redirect('/AgendaPHP/AgendaPHP/Public/usuario/perfil');
+    }
+
+    public function excluirConta()
+    {
+        $this->verificarAutenticacao();
+
+        if (!$this->isPost()) {
+            $this->redirect('/AgendaPHP/AgendaPHP/Public/usuario/perfil');
+            return;
+        }
+
+        if (!$this->validarCSRF('excluir_conta_form')) {
+            $this->setMensagem('error', 'Erro de validação do formulário. Por favor, tente novamente.');
+            $this->redirect('/AgendaPHP/AgendaPHP/Public/usuario/perfil');
+            return;
+        }
+
+        $usuario_id = $_SESSION['usuario_id'];
+        $senha = $_POST['senha_confirmacao'] ?? '';
+
+        if (empty($senha)) {
+            $this->setMensagem('error', 'Por favor, confirme sua senha para excluir a conta.');
+            $this->redirect('/AgendaPHP/AgendaPHP/Public/usuario/perfil');
+            return;
+        }
+
+        // Verificar se a senha está correta
+        if (!$this->usuarioModel->verificarSenha($usuario_id, $senha)) {
+            $this->setMensagem('error', 'Senha incorreta. A exclusão da conta não foi realizada.');
+            $this->redirect('/AgendaPHP/AgendaPHP/Public/usuario/perfil'); // Corrigido: redireciona de volta ao perfil
+            return;
+        }
+
+        $resultado = $this->usuarioModel->excluir($usuario_id);
+
+        if ($resultado) {
+            session_start();
+            session_unset();
+            session_destroy();
+            session_start();
+            $_SESSION['success'] = 'Sua conta foi excluída com sucesso.';
+            $this->redirect('/AgendaPHP/AgendaPHP/Public/Home');
+        } else {
+            $this->setMensagem('error', 'Ocorreu um erro ao excluir a conta. Por favor, tente novamente.');
+            $this->redirect('/AgendaPHP/AgendaPHP/Public/usuario/perfil');
+        }
     }
 }
 ?>

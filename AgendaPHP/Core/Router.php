@@ -65,7 +65,7 @@ class Router {
             $controller = new \AgendaPHP\App\Controllers\ContatoController($this->pdo);
             $controller->filtrarGrupo($id);
         });
-
+        
         $this->addRoute('/sobre', function () {
             require_once APP_PATH . '/controllers/HomeController.php';
             $controller = new \AgendaPHP\App\Controllers\HomeController($this->pdo);
@@ -115,6 +115,8 @@ class Router {
             $controller->recuperarSenha();
         });
 
+        
+
         $this->addRoute('/grupo', function () {
             require_once APP_PATH . '/controllers/GrupoController.php';
             $controller = new \AgendaPHP\App\Controllers\GrupoController($this->pdo);
@@ -163,6 +165,12 @@ class Router {
             require_once APP_PATH . '/controllers/UsuarioController.php';
             $controller = new \AgendaPHP\App\Controllers\UsuarioController($this->pdo);
             $controller->alterarSenha();
+        });
+
+        $this->addRoute('/usuario/excluir-conta', function () {
+            require_once APP_PATH . '/controllers/UsuarioController.php';
+            $controller = new \AgendaPHP\App\Controllers\UsuarioController($this->pdo);
+            $controller->excluirConta();
         });
 
     }

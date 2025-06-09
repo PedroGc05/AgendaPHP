@@ -75,5 +75,25 @@ class Usuario {
         $resultado = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $resultado['total_grupos'] ?? 0;
     }
+
+    public function excluir($id){
+        $this->pdo->beginTransaction();
+
+        try {
+            $stmt = $this->pdo->prepare("DELETE FROM usuarios WHERE id = ?");
+            $result = $stmt->execute([$id]);
+
+            if ($result) {
+                $this->pdo->commit();
+                return true;
+            } else {
+                $this->pdo->rollBack();
+                return false;
+            }
+        } catch (\PDOException $e) {
+            $this->pdo->rollBack();
+            return false;
+        }
+    }
 }
 ?>

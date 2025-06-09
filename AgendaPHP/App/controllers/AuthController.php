@@ -67,47 +67,55 @@ class AuthController extends Controller {
             'titulo' => 'Cadastro'
         ]);
     }
-    
-    public function registrar() {
+
+    public function registrar()
+    {
         if (!$this->isPost()) {
-            $this->redirect('auth/cadastro');
+            $this->redirect('/AgendaPHP/AgendaPHP/Public/auth/cadastro');
             return;
         }
-        
+
         if (!$this->validarCSRF('cadastro_form')) {
             $this->setMensagem('error', 'Erro de validação do formulário. Por favor, tente novamente.');
-            $this->redirect('auth/cadastro');
+            $this->redirect('/AgendaPHP/AgendaPHP/Public/auth/cadastro');
             return;
         }
-        
+
         $nome = $_POST['nome'] ?? '';
         $email = $_POST['email'] ?? '';
         $senha = $_POST['senha'] ?? '';
         $confirmarSenha = $_POST['confirmar_senha'] ?? '';
-        $cpf = $_POST['cpf'] ?? null;
-        $data_nasc = $_POST['data_nasc'] ?? null;
-        
-        if (empty($nome) || empty($email) || empty($senha)) {
+        $cpf = $_POST['cpf'] ?? '';
+        $data_nasc = $_POST['data_nasc'] ?? '';
+
+        if (empty($nome) || empty($email) || empty($senha) || empty($cpf) || empty($data_nasc)) {
             $this->setMensagem('error', 'Por favor, preencha todos os campos obrigatórios.');
-            $this->redirect('auth/cadastro');
+            $this->redirect('/AgendaPHP/AgendaPHP/Public/auth/cadastro');
             return;
         }
-        
+
+        $cpf = preg_replace('/[^0-9]/', '', $cpf);
+        if (strlen($cpf) !== 11) {
+            $this->setMensagem('error', 'CPF inválido. Digite 11 números.');
+            $this->redirect('/AgendaPHP/AgendaPHP/Public/auth/cadastro');
+            return;
+        }
+
         if ($senha !== $confirmarSenha) {
             $this->setMensagem('error', 'As senhas não coincidem.');
-            $this->redirect('auth/cadastro');
+            $this->redirect('/AgendaPHP/AgendaPHP/Public/auth/cadastro');
             return;
         }
         
         if (strlen($senha) < 6) {
             $this->setMensagem('error', 'A senha deve ter pelo menos 6 caracteres.');
-            $this->redirect('auth/cadastro');
+            $this->redirect('/AgendaPHP/AgendaPHP/Public/auth/cadastro');
             return;
         }
         
         if ($this->auth->emailExiste($email)) {
             $this->setMensagem('error', 'Este email já está em uso.');
-            $this->redirect('auth/cadastro');
+            $this->redirect('/AgendaPHP/AgendaPHP/Public/auth/cadastro');
             return;
         }
         
@@ -118,7 +126,7 @@ class AuthController extends Controller {
             $this->redirect('/AgendaPHP/AgendaPHP/Public/Home');
         } else {
             $this->setMensagem('error', 'Erro ao cadastrar usuário. Por favor, tente novamente.');
-            $this->redirect('auth/cadastro');
+            $this->redirect('/AgendaPHP/AgendaPHP/Public/auth/cadastro');
         }
     }
     

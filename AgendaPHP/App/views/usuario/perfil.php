@@ -95,7 +95,27 @@ use AgendaPHP\Core\CSRFToken;
                 </div>
             </form>
         </div>
+
+        <div class="profile-section danger-zone">
+            <div class="warning-box">
+                <h3>Excluir Conta</h3>
+                <p>Atenção: Esta ação não pode ser desfeita. Todos os seus dados, contatos e grupos serão permanentemente excluídos.</p>
+                
+                <form action="/AgendaPHP/AgendaPHP/Public/usuario/excluir-conta" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir sua conta? Esta ação não pode ser desfeita.')">
+                    <?= CSRFToken::campoFormulario('excluir_conta_form') ?>
         
+                    <div class="form-group">
+                        <label for="senha_confirmacao">Digite sua senha para confirmar*</label>
+                        <input type="password" id="senha_confirmacao" name="senha_confirmacao" required>
+                    </div>
+        
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-danger">Excluir Minha Conta</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+                
         <div class="profile-section">
             <h2>Estatísticas da Conta</h2>
             
