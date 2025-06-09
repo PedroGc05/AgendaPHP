@@ -3,7 +3,8 @@
 namespace AgendaPHP\App\Models;
 class Grupo {
     private $pdo;
-    
+    public $nome;
+
     public function __construct($pdo) {
         $this->pdo = $pdo;
     }
@@ -56,5 +57,14 @@ class Grupo {
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $result['total'];
     }
+
+    public function salvar()
+{
+    $pdo = Conexao::conectar(); 
+    $sql = "INSERT INTO grupos (nome) VALUES (:nome)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':nome', $this->nome, \PDO::PARAM_STR);
+    return $stmt->execute();
+}
 }
 ?>

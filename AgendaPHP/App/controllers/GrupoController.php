@@ -29,11 +29,20 @@ class GrupoController extends Controller {
     }
     
     public function criar() {
-        $this->verificarAutenticacao();
-        
-        $this->renderView('grupo/criar', [
-            'titulo' => 'Adicionar Novo Grupo'
-        ]);
+    $this->verificarAutenticacao();
+
+    $usuario_id = $_SESSION['usuario_id'];
+
+    $grupos = $this->grupoModel->listar($usuario_id);
+
+    foreach ($grupos as &$grupo) {
+        $grupo['total_contatos'] = $this->grupoModel->contarContatosPorGrupo($grupo['id']);
+    }
+
+    $this->renderView('grupo/criar', [
+        'titulo' => 'Adicionar Novo Grupo',
+        'grupos' => $grupos 
+    ]);
     }
     
     public function salvar() {
